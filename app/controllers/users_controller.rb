@@ -12,7 +12,12 @@ class UsersController < ApplicationController
     def show
         byebug
         @user = User.find(:id)
-        render json @user
+        render json: @user
+    end
+
+    def index
+        @users = User.all
+        render json: UserSerializer.new(@users)
     end
     
     
