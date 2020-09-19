@@ -8,6 +8,13 @@ class UsersController < ApplicationController
             render json: @user.errors, status: :bad
         end 
     end
+
+    def show
+        byebug
+        @user = User.find(:id)
+        render json @user
+    end
+    
     
     private
     
