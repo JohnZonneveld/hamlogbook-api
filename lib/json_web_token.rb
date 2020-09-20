@@ -1,11 +1,12 @@
 class JsonWebToken
-	def self.encode(payload)
-	  	JWT.encode(payload, Rails.application.secrets.secret_key_base)
-	end
-  
-	def self.decode(token)
-	  	return HashWithIndifferentAccess.new(JWT.decode(token, Rails.application.secrets.secret_key_base)[0])
-	rescue
-	  	nil
-	end
+	def self.encode(payload, expiration)
+		payload[:exp] = expiration.to_i
+		JWT.encode(payload, ENV['JWT_SECRET'])
+	  end
+	
+	  def self.decode(token)
+		return JWT.decode(token, ENV['JWT_SECRET'])[0]
+	  rescue
+		'FAILED'
+	  end
 end

@@ -4,8 +4,10 @@ class ApplicationController < ActionController::API
 	attr_reader :current_user
 
 	# the token to be given to a user upon successful signup/login
-    def encode_token(payload)
-		JWT.encode(payload, ENV["jwt_ecoder_secret"])
+	def encode_token(payload)
+		# byebug
+		JWT.encode(payload, ENV["JWT_SECRET"], 'HS256')
+		# JWT.decode(token, ENV["JWT_SECRET"], true, {algorithm: "HS256"})
 	end
 
 	# Since token is sent back in a header this is how we access the token
@@ -15,61 +17,40 @@ class ApplicationController < ActionController::API
 	end
 
 	def decoded_token
+		# byebug
 		# if we can access the token
 		if auth_header
+			# byebug
 		  	token = auth_header.split(' ')[1]
 		  	# header: { 'Authorization': 'Bearer <token>' }
 		  	# The Begin/Rescue syntax allows us to rescue out of an exception in Ruby.
 		  	begin
 				# This will decode the payload we originally gave the token
-				JWT.decode(token, ENV["jwt_ecoder_secret"], true, algorithm: 'HS256')
+				JsonWebToken.decode(token)
 		  	rescue JWT::DecodeError
-				nil
+				render json: { errors: 'Session has expired! Please log in' }, status: :unauthorized
 		  	end
 		end
 	end
 
 	def current_user
+		byebug
 		# If we were able to decode the token
 		if decoded_token
 		  	# Return the user who we gave the token to
-		  	user_id = decoded_token[0]['user_id']
-		  	user = User.find_by(id: user_id)
+			user_id = decoded_token['user_id'] 
+		  	@user = User.find_by(id: user_id)
 		end
 	end
   
 	def logged_in?
+		byebug
 		!!current_user
 	end
   
 	def authorized
+		byebug
 		render json: { errors: 'Please log in' }, status: :unauthorized unless logged_in?
 	end
 	
-	protected
-  	def authenticate_request!
-    	unless user_id_in_token?
-      		render json: { errors: ['Not Authenticated'] }, status: :unauthorized
-      	return
-    	end
-    	@current_user = User.find(auth_token[:user_id])
-  		rescue JWT::VerificationError, JWT::DecodeError
-    	render json: { errors: ['Not Authenticated'] }, status: :unauthorized
-	end
-	  
-
-  	private
-  	def http_token
-      	@http_token ||= if request.headers['Authorization'].present?
-        	request.headers['Authorization'].split(' ').last
-      	end
-  	end
-
-  	def auth_token
-    	@auth_token ||= JsonWebToken.decode(http_token)
-  	end
-
-  	def user_id_in_token?
-    	http_token && auth_token && auth_token[:user_id].to_i
-  	end
 end
