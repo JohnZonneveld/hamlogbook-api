@@ -19,21 +19,9 @@ class AuthenticationController < ApplicationController
 		token = JsonWebToken.encode({ user_id: current_user.id }, exp_time)
 		render json: { userdata: UserSerializer.new(current_user), jwt: token }, status: :accepted
 	end
-
-	def exp_time
-		# expiration time set to 10 minutes from now
-		Time.now.to_i + 60
-	end
   
 	private
   
-	def payload(user)
-		options = {include: [:callsign, :email, :my_qth]}
-	  	return nil unless user and user.id
-	  	{
-			auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
-			user: UserSerializer.new(user)
-	  	}
-	end
+	
 end
   

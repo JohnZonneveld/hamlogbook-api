@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
 		# byebug
 		# if we can access the token
 		if auth_header
-			# byebug
+			byebug
 		  	token = auth_header.split(' ')[1]
 		  	# header: { 'Authorization': 'Bearer <token>' }
 		  	# The Begin/Rescue syntax allows us to rescue out of an exception in Ruby.
@@ -51,6 +51,20 @@ class ApplicationController < ActionController::API
 	def authorized
 		byebug
 		render json: { errors: 'Please log in' }, status: :unauthorized unless logged_in?
+	end
+
+	def exp_time
+		# expiration time set to 10 minutes from now
+		Time.now.to_i + 600
+	end
+
+	def payload(user)
+		options = {include: [:callsign, :email, :my_qth]}
+	  	return nil unless user and user.id
+	  	{
+			auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
+			user: UserSerializer.new(user)
+	  	}
 	end
 	
 end
