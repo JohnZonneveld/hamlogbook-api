@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 			render json: payload(user)
         else
             byebug
-            render json: user.errors.messages, status: :error
+            render json: { error: 'failed to create user' }, status: :not_acceptable
         end 
     end
 
