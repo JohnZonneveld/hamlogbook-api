@@ -10,10 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_12_205125) do
+ActiveRecord::Schema.define(version: 2020_10_07_130158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "contacts", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "owncall"
+    t.string "station_callsign"
+    t.string "my_gridsquare"
+    t.string "call"
+    t.string "band"
+    t.string "freq"
+    t.string "freq_rcvd"
+    t.string "mode"
+    t.string "submode"
+    t.string "modegroup"
+    t.date "qso_date"
+    t.time "time_on"
+    t.boolean "qsl_rcvd"
+    t.date "qsl_rdate"
+    t.string "dxcc"
+    t.string "country"
+    t.string "iota"
+    t.string "gridsquare"
+    t.string "state"
+    t.string "cnty"
+    t.string "cqz"
+    t.string "ituz"
+    t.string "park"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "callsign"
