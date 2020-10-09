@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
 		# byebug
 		# if we can access the token
 		if auth_header
-			byebug
+			# byebug
 		  	token = auth_header.split(' ')[1]
 		  	# header: { 'Authorization': 'Bearer <token>' }
 		  	# The Begin/Rescue syntax allows us to rescue out of an exception in Ruby.
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::API
 	end
 
 	def current_user
-		byebug
+		# byebug
 		# If we were able to decode the token
 		if decoded_token
 		  	# Return the user who we gave the token to
@@ -44,12 +44,12 @@ class ApplicationController < ActionController::API
 	end
   
 	def logged_in?
-		byebug
+		# byebug
 		!!current_user
 	end
   
 	def authorized
-		byebug
+		# byebug
 		render json: { errors: 'Please log in' }, status: :unauthorized unless logged_in?
 	end
 
