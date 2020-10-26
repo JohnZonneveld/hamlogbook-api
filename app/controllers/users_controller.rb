@@ -26,22 +26,11 @@ class UsersController < ApplicationController
     end
 
     def update
-        # byebug
         user = User.find_by(id: params[:id])
         userdata = params[:user]
         if user
-            if params[:user][:password]!=''
-                # user=user.update(user_params)
-                user.callsign = params[:user][:callsign]
-                user.password = params[:user][:password]
-                user.email = params[:user][:email]
-                user.my_qth = params[:user][:my_qth]
-            else
-                user.callsign = params[:user][:callsign]
-                user.email = params[:user][:email]
-                user.my_qth = params[:user][:my_qth]
-            end
-            if user.save
+            params[:user].delete(:password) if params[:user][:password].blank?
+            if user.update_attributes(user_params)
                 response = { message: 'User updated successfully'}
                 payload_data = {user: user.id}
 			    token = JsonWebToken.encode(payload_data, exp_time)
@@ -56,6 +45,6 @@ class UsersController < ApplicationController
     private
     
     def user_params
-        params.require(:user).permit(:callsign, :password, :email, :my_qth)
+        params.require(:user).permit!
       end
 end

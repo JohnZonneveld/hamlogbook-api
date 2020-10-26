@@ -50,7 +50,7 @@ class ApplicationController < ActionController::API
   
 	def authorized
 		# byebug
-		render json: { errors: 'Please log in' }, status: :unauthorized unless logged_in?
+		render json: { errors: 'Session has expired! Please log in' }, status: :unauthorized unless logged_in?
 	end
 
 	def exp_time
