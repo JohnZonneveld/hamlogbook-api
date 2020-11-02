@@ -11310,7 +11310,7 @@ Contact.create(
   mode: 'FT8',
   modegroup: 'DATA',
   qso_date: '20191103',
-  time_on: '22:3930',
+  time_on: '22:39:30',
   qsl_rcvd: 'Y',
   qsl_rdate: '20191104',
   dxcc: '291',
