@@ -25,8 +25,7 @@ class ContactsController < ApplicationController
 			contact: ContactDetailSerializer.new(contact)
 		  }
 		else
-		  flash[:error] = "Something went wrong"
-		  render 'new'
+		  render json: => { :errors => contact.errors.full_messages }, :status => 422
 		end
 	end
 	
