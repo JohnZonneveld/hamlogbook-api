@@ -16,8 +16,22 @@ class ContactsController < ApplicationController
 		}
 	end
 
+	def create
+		contact = Contact.new(contact_params)
+		contact.user_id = current_user.id
+		if contact.save
+		  render json: {
+			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
+			contact: ContactDetailSerializer.new(contact)
+		  }
+		else
+		  flash[:error] = "Something went wrong"
+		  render 'new'
+		end
+	end
+	
+
 	def update
-		byebug
 		contact = current_user.contacts.find(params[:id])
 		if contact.update_attributes(contact_params)
 			response = { message: 'Contact updated successfully'}
@@ -26,7 +40,7 @@ class ContactsController < ApplicationController
 			contact: ContactDetailSerializer.new(contact)
 			}
 		else
-			render :json => { :errors => @model.errors.full_messages }, :status => 422
+			render :json => { :errors => contact.errors.full_messages }, :status => 422
 		end
 	end
 
