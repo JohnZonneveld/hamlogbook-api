@@ -25,7 +25,7 @@ class ContactsController < ApplicationController
 			contact: ContactDetailSerializer.new(contact)
 		  }
 		else
-		  render json: => { :errors => contact.errors.full_messages }, :status => 422
+			render json: { errors: "failed to create contact" }, status: :not_acceptable
 		end
 	end
 	
@@ -39,14 +39,27 @@ class ContactsController < ApplicationController
 			contact: ContactDetailSerializer.new(contact)
 			}
 		else
-			render :json => { :errors => contact.errors.full_messages }, :status => 422
+			render json: { errors: "failed to update contact" }, status: :not_acceptable
 		end
 	end
+
+	def destroy
+		contact = Contact.find(params[:id])
+		if contact.destroy
+			response = { message: 'Contact deleted successfully'}
+			render json: {
+			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
+			message: 'Contact deleted successfully'
+			}
+		else
+			render json: { errors: "failed to update contact" }, status: :not_acceptable
+		end
+	end
+	
+	private
 
 	def contact_params
 		params.require(:contact).permit!
 	end
-		
-		
 		
 end
