@@ -1,15 +1,8 @@
 class ApplicationController < ActionController::API
 	before_action :authorized
-
 	attr_reader :current_user
+	@@expiry = 3600 # 3600 seconds
 
-	# the token to be given to a user upon successful signup/login
-	def encode_token(payload)
-		JWT.encode(payload, ENV["JWT_SECRET"], 'HS256')
-		# JWT.decode(token, ENV["JWT_SECRET"], true, {algorithm: "HS256"})
-	end
-
-	# Since token is sent back in a header this is how we access the token
 	def auth_header
 		# { Authorization: 'Bearer <token>' }
 		request.headers['Authorization']
@@ -18,24 +11,25 @@ class ApplicationController < ActionController::API
 	def decoded_token
 		# if we can access the token
 		if auth_header
+			# Disgard the 'Bearer ' part
 		  	token = auth_header.split(' ')[1]
-		  	# header: { 'Authorization': 'Bearer <token>' }
 		  	# The Begin/Rescue syntax allows us to rescue out of an exception in Ruby.
 		  	begin
 				# This will decode the payload we originally gave the token
 				JsonWebToken.decode(token)
 		  	rescue JWT::DecodeError
-				render json: { errors: 'Session has expired! Please log in' }, status: :unauthorized
+				# render json: { errors: 'Session has expired! Please log in' }, status: :unauthorized
+				nil
 		  	end
 		end
 	end
 
 	def current_user
-		# If we were able to decode the token
+		# If token can be decoded
 		if decoded_token
 		  	# Return the user who we gave the token to
 			user_id = decoded_token['user_id'] 
-		  	@user = User.find_by(id: user_id)
+		  	user = User.find_by(id: user_id)
 		end
 	end
   
@@ -48,8 +42,8 @@ class ApplicationController < ActionController::API
 	end
 
 	def exp_time
-		# expiration time set to 10 minutes from now
-		Time.now.to_i + 600
+		# expiration time set to @@expiry from now
+		Time.now.to_i + @@expiry
 	end
 
 	def payload(user)

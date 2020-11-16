@@ -2,20 +2,17 @@ class UsersController < ApplicationController
     skip_before_action :authorized, only: [:create]
 
     def create
-        # byebug
         user = User.new(user_params)
         if user.save
             payload_data = {user: user.id}
 			token = JsonWebToken.encode(payload_data, exp_time)
 			render json: payload(user)
         else
-            # byebug
-            render json: { error: 'failed to create user' }, status: :not_acceptable
+            render json: { error: "failed to create user" }, status: :not_acceptable
         end 
     end
 
     def show
-        # byebug
         @user = User.find(:id)
         render json: @user
     end
@@ -31,7 +28,7 @@ class UsersController < ApplicationController
         if user
             params[:user].delete(:password) if params[:user][:password].blank?
             if user.update_attributes(user_params)
-                response = { message: 'User updated successfully'}
+                response = { message: "User updated successfully"}
                 payload_data = {user: user.id}
 			    token = JsonWebToken.encode(payload_data, exp_time)
 			    render json: payload(user)
