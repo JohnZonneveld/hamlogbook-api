@@ -26,14 +26,14 @@ class ContactsController < ApplicationController
 				message: "Contact created succesfully"
 		  	}
 		else
-			render json: { error: "failed to create contact" }, status: :not_acceptable
+			render json: { error: user.errors.full_messages }, status: :not_acceptable
 		end
 	end
 	
 
 	def update
-		byebug
 		contact = current_user.contacts.find(params[:id])
+		byebug
 		if contact.update_attributes(contact_params)
 			response = { message: "Contact updated successfully"}
 			render json: {
@@ -41,11 +41,12 @@ class ContactsController < ApplicationController
 			contact: ContactDetailSerializer.new(contact)
 			}
 		else
-			render json: { error: "failed to update contact" }, status: :not_acceptable
+			render json: { error: contact.errors.full_messages }, status: :not_acceptable
 		end
 	end
 
 	def destroy
+		byebug
 		contact = Contact.find(params[:id])
 		if contact.destroy
 			render json: {
