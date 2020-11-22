@@ -33,7 +33,6 @@ class ContactsController < ApplicationController
 
 	def update
 		contact = current_user.contacts.find(params[:id])
-		byebug
 		if contact.update_attributes(contact_params)
 			response = { message: "Contact updated successfully"}
 			render json: {
@@ -46,7 +45,6 @@ class ContactsController < ApplicationController
 	end
 
 	def destroy
-		byebug
 		contact = Contact.find(params[:id])
 		if contact.destroy
 			render json: {

@@ -8,7 +8,6 @@ class UsersController < ApplicationController
 			token = JsonWebToken.encode(payload_data, exp_time)
 			render json: payload(user)
         else
-            byebug
             render json: { error: user.errors.full_messages }, status: :not_acceptable
         end 
     end
@@ -34,7 +33,7 @@ class UsersController < ApplicationController
 			    token = JsonWebToken.encode(payload_data, exp_time)
 			    render json: payload(user)
             else
-                render :json => { :error => @model.errors.full_messages }, :status => 422
+                render :json => { :error => user.errors.full_messages }, :status => 422
             end
         end
     end
