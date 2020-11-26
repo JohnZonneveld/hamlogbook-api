@@ -26,14 +26,14 @@ class ContactsController < ApplicationController
 				message: "Contact created succesfully"
 		  	}
 		else
-			render json: { error: user.errors.full_messages }, status: :not_acceptable
+			render json: { error: contact.errors.full_messages }, status: :not_acceptable
 		end
 	end
 	
 
 	def update
 		contact = current_user.contacts.find(params[:id])
-		if contact.update_attributes(contact_params)
+		if contact.update(contact_params)
 			response = { message: "Contact updated successfully"}
 			render json: {
 			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
