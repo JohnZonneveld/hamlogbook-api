@@ -3,13 +3,17 @@ class AuthenticationController < ApplicationController
 	
 	def create
 		user = User.find_by(callsign: params[:user][:callsign])
-		if user && user.authenticate(params[:user][:password])
-			render json: {
-				auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
-				user: UserSerializer.new(user)
-			}, status: :accepted
+		if user
+			if user.authenticate(params[:user][:password])
+				render json: {
+					auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
+					user: UserSerializer.new(user)
+				}, status: :accepted
+			else
+				render json: {error: ["Invalid Password"]}, status: :unauthorized
+			end
 		else
-			render json: {error: ["Invalid Username/Password"]}, status: :unauthorized
+			render json: {error: ["User unknown, please register first!"]}, status: :unauthorized
 		end
 	end
 

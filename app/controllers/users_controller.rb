@@ -5,7 +5,9 @@ class UsersController < ApplicationController
         user = User.new(user_params)
         if user.save
             payload_data = {user: user.id}
-			token = JsonWebToken.encode(payload_data, exp_time)
+            # JsonWebToken.encode is defined in lib/json_web_token.rb
+            token = JsonWebToken.encode(payload_data, exp_time)
+            # payload() is defined in application_controller
 			render json: payload(user)
         else
             render json: { error: user.errors.full_messages }, status: :not_acceptable
@@ -13,8 +15,15 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find(:id)
-        render json: @user
+        byebug
+        user = User.find(:id)
+        payload_data = {user: user.id}
+        # JsonWebToken.encode is defined in lib/json_web_token.rb
+        token = JsonWebToken.encode(payload_data, exp_time)
+        # payload() is defined in application_controller
+        render json: payload(user)
+
+        # render json: user
     end
 
     def index

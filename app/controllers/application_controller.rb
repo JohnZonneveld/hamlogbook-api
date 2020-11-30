@@ -25,7 +25,7 @@ class ApplicationController < ActionController::API
 	end
 
 	def current_user
-		# If token can be decoded
+		# If token can be decoded we will have a current_user
 		if decoded_token
 		  	# Return the user who we gave the token to
 			user_id = decoded_token['user_id'] 
@@ -34,10 +34,12 @@ class ApplicationController < ActionController::API
 	end
   
 	def logged_in?
+		# for someone to be logged in there must be a current_user
 		!!current_user
 	end
   
 	def authorized
+		# user is authorized if the user is logged in
 		render json: { errors: 'Session has expired! Please log in' }, status: :unauthorized unless logged_in?
 	end
 
