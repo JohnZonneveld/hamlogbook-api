@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 				success: "User created succesfully"
 		  	}
         else
-            byebug
             render json: { 
                 errors: user.errors.full_messages 
             }, status: :not_acceptable
