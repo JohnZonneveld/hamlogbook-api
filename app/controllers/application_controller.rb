@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 	before_action :authorized
 	attr_reader :current_user
-	@@expiry = 60 # 3600 seconds
+	@@expiry = 3600 # 3600 seconds
 
 	def auth_header
 		# { Authorization: 'Bearer <token>' }

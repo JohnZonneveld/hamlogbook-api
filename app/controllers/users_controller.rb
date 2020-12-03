@@ -4,28 +4,16 @@ class UsersController < ApplicationController
     def create
         user = User.new(user_params)
         if user.save
-            payload_data = {user: user.id}
-            # JsonWebToken.encode is defined in lib/json_web_token.rb
-            token = JsonWebToken.encode(payload_data, exp_time)
-            # payload() is defined in application_controller
-			render json: payload(user)
+            render json: {
+				auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
+				user: UserSerializer.new(user),
+				success: "User created succesfully"
+		  	}
         else
-            render json: { errors: user.errors.full_messages }, status: :not_acceptable
+            render json: { 
+                errors: user.errors.full_messages 
+            }, status: :not_acceptable
         end 
-    end
-
-    def show
-        user = User.find(:id)
-        payload_data = {user: user.id}
-        # JsonWebToken.encode is defined in lib/json_web_token.rb
-        token = JsonWebToken.encode(payload_data, exp_time)
-        # payload() is defined in application_controller
-        render json: payload(user)
-    end
-
-    def index
-        @users = User.all
-        render json: UserSerializer.new(@users)
     end
 
     def update
@@ -34,12 +22,15 @@ class UsersController < ApplicationController
         if user
             params[:user].delete(:password) if params[:user][:password].blank?
             if user.update_attributes(user_params)
-                response = { message: "User updated successfully"}
-                payload_data = {user: user.id}
-			    token = JsonWebToken.encode(payload_data, exp_time)
-			    render json: payload(user)
+                render :json => {
+                    auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
+                    user: UserSerializer.new(user),
+                    success: "Profile updated succesfully"
+                }
             else
-                render :json => { :errors => user.errors.full_messages }, :status => 422
+                render :json => { 
+                    errors: => user.errors.full_messages 
+                }, :status => 422
             end
         end
     end

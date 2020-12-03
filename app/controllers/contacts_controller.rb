@@ -23,10 +23,12 @@ class ContactsController < ApplicationController
 		  	render json: {
 				auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
 				contact: ContactDetailSerializer.new(contact),
-				message: "Contact created succesfully"
+				success: "Contact created succesfully"
 		  	}
 		else
-			render json: { errors: contact.errors.full_messages }, status: :not_acceptable
+			render json: { 
+				errors: contact.errors.full_messages 
+			}, status: :not_acceptable
 		end
 	end
 	
@@ -34,13 +36,15 @@ class ContactsController < ApplicationController
 	def update
 		contact = current_user.contacts.find(params[:id])
 		if contact.update(contact_params)
-			response = { message: "Contact updated successfully"}
 			render json: {
 			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
-			contact: ContactDetailSerializer.new(contact)
+			contact: ContactDetailSerializer.new(contact),
+			success: "Contact updated successfully"
 			}
 		else
-			render json: { errors: contact.errors.full_messages }, status: :not_acceptable
+			render json: { 
+				errors: contact.errors.full_messages 
+			}, status: :not_acceptable
 		end
 	end
 
@@ -49,7 +53,7 @@ class ContactsController < ApplicationController
 		if contact.destroy
 			render json: {
 				auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
-				message: "Contact deleted successfully"
+				success: "Contact deleted successfully"
 			}
 		else
 			render json: { errors: "failed to update contact" }, status: :not_acceptable
