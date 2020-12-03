@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 				success: "User created succesfully"
 		  	}
         else
+            byebug
             render json: { 
                 errors: user.errors.full_messages 
             }, status: :not_acceptable
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
                 }
             else
                 render :json => { 
-                    errors: => user.errors.full_messages 
+                    errors: user.errors.full_messages 
                 }, :status => 422
             end
         end
