@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 	before_action :authorized
 	attr_reader :current_user
-	@@expiry = 3600 # 3600 seconds
+	@@expiry = 60 # 3600 seconds
 
 	def auth_header
 		# { Authorization: 'Bearer <token>' }
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::API
   
 	def authorized
 		# user is authorized if the user is logged in
-		render json: { errors: 'Session has expired! Please log in' }, status: :unauthorized unless logged_in?
+		render json: { message: 'Session has expired! Please log in' }, status: :unauthorized unless logged_in?
 	end
 
 	def exp_time

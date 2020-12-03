@@ -10,10 +10,10 @@ class AuthenticationController < ApplicationController
 					user: UserSerializer.new(user)
 				}, status: :accepted
 			else
-				render json: {error: ["Invalid Password"]}, status: :unauthorized
+				render json: {errors: ["Invalid Password"]}, status: :unauthorized
 			end
 		else
-			render json: {error: ["User unknown, please register first!"]}, status: :unauthorized
+			render json: {errors: ["User unknown, please register first!"]}, status: :unauthorized
 		end
 	end
 

@@ -10,20 +10,17 @@ class UsersController < ApplicationController
             # payload() is defined in application_controller
 			render json: payload(user)
         else
-            render json: { error: user.errors.full_messages }, status: :not_acceptable
+            render json: { errors: user.errors.full_messages }, status: :not_acceptable
         end 
     end
 
     def show
-        byebug
         user = User.find(:id)
         payload_data = {user: user.id}
         # JsonWebToken.encode is defined in lib/json_web_token.rb
         token = JsonWebToken.encode(payload_data, exp_time)
         # payload() is defined in application_controller
         render json: payload(user)
-
-        # render json: user
     end
 
     def index
@@ -42,7 +39,7 @@ class UsersController < ApplicationController
 			    token = JsonWebToken.encode(payload_data, exp_time)
 			    render json: payload(user)
             else
-                render :json => { :error => user.errors.full_messages }, :status => 422
+                render :json => { :errors => user.errors.full_messages }, :status => 422
             end
         end
     end

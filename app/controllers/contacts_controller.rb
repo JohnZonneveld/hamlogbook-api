@@ -26,7 +26,7 @@ class ContactsController < ApplicationController
 				message: "Contact created succesfully"
 		  	}
 		else
-			render json: { error: contact.errors.full_messages }, status: :not_acceptable
+			render json: { errors: contact.errors.full_messages }, status: :not_acceptable
 		end
 	end
 	
@@ -40,7 +40,7 @@ class ContactsController < ApplicationController
 			contact: ContactDetailSerializer.new(contact)
 			}
 		else
-			render json: { error: contact.errors.full_messages }, status: :not_acceptable
+			render json: { errors: contact.errors.full_messages }, status: :not_acceptable
 		end
 	end
 
@@ -52,7 +52,7 @@ class ContactsController < ApplicationController
 				message: "Contact deleted successfully"
 			}
 		else
-			render json: { error: "failed to update contact" }, status: :not_acceptable
+			render json: { errors: "failed to update contact" }, status: :not_acceptable
 		end
 	end
 	
