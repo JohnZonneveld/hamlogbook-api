@@ -1,25 +1,24 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+HamLogbook
 
-Things you may want to cover:
+A single page web based database for radio amateurs to create/read/update/delete contacts. User needs to create an account to be able to access the database. User has to add a callsign before he can add contacts. If user obtains another callsign he/she can change it in the profile. No need to create an new account. User can edit all fields it the profile.
 
-* Ruby version
+This application has been built using Ruby 2.6.1, which should be loaded while running 'bundle install'
 
-* System dependencies
+To use this application:
 
-* Configuration
+Go to https://github.com/johnzonneveld/hamlogbook-api
+Click the 'Clone or Download' button
+Copy the link
+In Command Line or Git Bash, type 'git clone' then paste the URL
+Run 
+<pre><code>'bundle install'</code></pre>
+Type on the command line 'rails db:create' to create the PostgreSQL database, next type 'rails db:migrate' to create the database tables.
 
-* Database creation
+Run 'rails s' to start the backend, Ruby on Rails server that serves the JavaScript frontend.
 
-* Database initialization
+With each interaction between front- and back end an authorization token is exchanged. Default expiry time for the token is set to 3600 seocnds (1 hours). Inactivity of interaction between front- and back end larger than 3600 seconds the token will be expired and the user will be forced to log in again.
 
-* How to run the test suite
+Frontend is described in https://github.com/johnzonneveld/hamlogbook-js
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# hamlogbook-api
