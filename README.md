@@ -14,7 +14,8 @@ Copy the link
 In Command Line or Git Bash, type 'git clone' then paste the URL
 Run 
 <pre><code>'bundle install'</code></pre>
-Type on the command line 'rails db:create' to create the PostgreSQL database, next type 'rails db:migrate' to create the database tables.
+Type on the command line 
+<pre><code>rails db:create'</code></pre> to create the PostgreSQL database, next type 'rails db:migrate' to create the database tables.
 
 Run 'rails s' to start the backend, Ruby on Rails server that serves the JavaScript frontend.
 
