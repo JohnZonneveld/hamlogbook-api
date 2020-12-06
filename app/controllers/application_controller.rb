@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 	before_action :authorized
 	attr_reader :current_user
-	@@expiry = 3600 # 3600 seconds
+	@@expiry = 900 # 900 seconds = 15 minutes, advised JWT expiration
 
 	def auth_header
 		# { Authorization: 'Bearer <token>' }
