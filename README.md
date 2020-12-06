@@ -17,14 +17,15 @@ Run:</p>
 <pre><code>bundle install</code></pre>
 <p>Type on the command line:</p> 
 <pre><code>rails db:create</code></pre> 
-to create the PostgreSQL database. Next type: 
+<p>to create the PostgreSQL database. Next type: </p>
 <pre><code>rails db:migrate</code></pre> 
-to create the database tables.
+<p>to create the database tables.</p>
 
-Run: <pre><code>rails s</code></pre> 
-to start the backend, Ruby on Rails server that serves the JavaScript frontend.
+<p>Run:</p> 
+<pre><code>rails s</code></pre> 
+<p>to start the backend, Ruby on Rails server that serves the JavaScript frontend.</p>
 
 <p>With each interaction between front- and back end an authorization token is exchanged. Default expiry time for the token is set to 3600 seocnds (1 hours). Inactivity of interaction between front- and back end larger than 3600 seconds the token will be expired and the user will be forced to log in again.</p>
 
-Frontend is described in https://github.com/johnzonneveld/hamlogbook-js
+<p>Frontend is described in https://github.com/johnzonneveld/hamlogbook-js</p>
 
