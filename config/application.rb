@@ -22,15 +22,15 @@ module HamlogbookApi
 		# Initialize configuration defaults for originally generated Rails version.
 		config.load_defaults 5.2
 
-		config.middleware.insert_before 0, Rack::Cors do
-			allow do
-				origins '*'
-				resource '*',
-					:headers => :any,
-					:methods => [:get, :post, :delete, :put, :patch, :options, :head],
-					:max_age => 0
-				end
-			end
+		# config.middleware.insert_before 0, Rack::Cors do
+		# 	allow do
+		# 		origins '*'
+		# 		resource '*',
+		# 			:headers => :any,
+		# 			:methods => [:get, :post, :delete, :put, :patch, :options, :head],
+		# 			:max_age => 0
+		# 	end
+		# end
 			
 		#autoloads lib folder during production
 		config.eager_load_paths << Rails.root.join('lib')
