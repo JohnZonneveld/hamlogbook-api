@@ -1,6 +1,7 @@
 class JsonWebToken
 	def self.encode(payload, expiration)
-		payload[:exp] = expiration.to_i
+		payload[:exp] = expiration
+		byebug
 		JWT.encode(payload, ENV['JWT_SECRET'],'HS256')
 	end
 	
