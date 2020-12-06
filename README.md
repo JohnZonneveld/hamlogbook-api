@@ -2,9 +2,9 @@
 
 HamLogbook
 
-A single page web based database for radio amateurs to create/read/update/delete contacts. User needs to create an account to be able to access the database. User has to add a callsign before he can add contacts. If user obtains another callsign he/she can change it in the profile. No need to create an new account. User can edit all fields it the profile.
+A single page web based database for radio amateurs to create/read/update/delete contacts. User needs to create an account to be able to access the database. User has to add a callsign before he can add contacts. If user obtains another callsign he/she can change it in the profile, no need to create an new account. User can edit all fields it the profile.
 
-This application has been built using Ruby 2.6.1, which should be loaded while running 'bundle install'
+This application has been built using Ruby 2.6.1, which should be loaded while running <pre><code>bundle install</code></pre>
 
 To use this application:
 
