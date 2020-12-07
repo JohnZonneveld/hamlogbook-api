@@ -6,7 +6,6 @@ class JsonWebToken
 	
 	def self.decode(token)
 		begin
-			byebug
 			return JWT.decode(token, ENV['JWT_SECRET'],'HS256')[0]
 		rescue
 			'FAILED'
