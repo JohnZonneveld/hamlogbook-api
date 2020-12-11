@@ -12,7 +12,7 @@ class ContactsController < ApplicationController
 		contact = current_user.contacts.find(params[:id])
 		render json: {
 			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
-			contact: ContactDetailSerializer.new(contact)
+			contact: ContactSerializer.new(contact)
 		}
 	end
 
