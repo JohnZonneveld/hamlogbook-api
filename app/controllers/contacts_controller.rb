@@ -22,11 +22,12 @@ class ContactsController < ApplicationController
 		if contact.save
 		  	render json: {
 				auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
-				contact: ContactDetailSerializer.new(contact),
+				contact: ContactSerializer.new(contact),
 				success: "Contact created succesfully"
 		  	}
 		else
 			render json: { 
+				auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
 				errors: contact.errors.full_messages 
 			}, status: :not_acceptable
 		end
@@ -38,11 +39,12 @@ class ContactsController < ApplicationController
 		if contact.update(contact_params)
 			render json: {
 			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
-			contact: ContactDetailSerializer.new(contact),
+			contact: ContactSerializer.new(contact),
 			success: "Contact updated successfully"
 			}
 		else
 			render json: { 
+				auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
 				errors: contact.errors.full_messages 
 			}, status: :not_acceptable
 		end
@@ -56,7 +58,10 @@ class ContactsController < ApplicationController
 				success: "Contact deleted successfully"
 			}
 		else
-			render json: { errors: "failed to update contact" }, status: :not_acceptable
+			render json: { 
+				auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
+				errors: "failed to update contact" 
+			}, status: :not_acceptable
 		end
 	end
 	

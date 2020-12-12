@@ -27,7 +27,7 @@ class AuthenticationController < ApplicationController
 		token = JsonWebToken.encode({ user_id: current_user.id }, exp_time)
 		render json: { 
 			userdata: UserSerializer.new(current_user), 
-			auth_token: token 
+			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time), 
 		}, status: :accepted
 	end
 	

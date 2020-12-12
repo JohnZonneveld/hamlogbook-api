@@ -29,6 +29,7 @@ class UsersController < ApplicationController
                 }
             else
                 render :json => { 
+                    auth_token: JsonWebToken.encode({user_id: user.id}, exp_time),
                     errors: user.errors.full_messages 
                 }, :status => 422
             end
