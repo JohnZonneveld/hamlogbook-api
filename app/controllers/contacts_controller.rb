@@ -17,6 +17,7 @@ class ContactsController < ApplicationController
 	end
 
 	def create
+		byebug
 		contact = Contact.new(contact_params)
 		contact.user_id = current_user.id
 		if contact.save
@@ -35,7 +36,7 @@ class ContactsController < ApplicationController
 	
 
 	def update
-		contact = current_user.contacts.find(params[:id])
+		contact = current_user.contacts.find(params[:contact][:id])
 		if contact.update(contact_params)
 			render json: {
 			auth_token: JsonWebToken.encode({user_id: current_user.id}, exp_time),
